@@ -1,15 +1,18 @@
 <template>
-  <div class="main-tag-line" ref="textRef">
-    A thought-leading design art director shaping meaningful experiences through curiosity, bold thinking and playfulness with a multidisciplinary practice across industrial design, branding, web engineering and digital innovation<span class="blinking-cursor">|</span>
-  </div>
-  <div class="work-tiles">
-    <work-tile
-      v-for="(work, index) in filterWorks"
-      :key="index"
-      :title="work.title"
-      :description="work.description"
-      :image="work.image"
-    />
+  <div class="wrapper">
+    <div class="main-tag-line" ref="textRef">
+      A thought-leading design art director shaping meaningful experiences through curiosity, bold thinking and playfulness with a multidisciplinary practice across industrial design, branding, web engineering and digital innovation<span class="blinking-cursor">|</span>
+    </div>
+    <div class="work-tiles">
+      <work-tile
+        v-for="(work, index) in works"
+        :key="index"
+        :work="work"
+        :index="index"
+        :is-hovering="work.tags.includes(currentSelection)"
+        :is-teleport="true"
+      />
+    </div>
   </div>
 </template>
 
@@ -17,13 +20,17 @@
 import {ref, onMounted, onBeforeUnmount, computed} from 'vue'
 import WorkTile from "@/components/WorkTile.vue";
 import {useWorksStore} from "@/stores/works.ts";
+import { gsap } from 'gsap';
 
 useWorksStore();
 const worksStore = useWorksStore();
 const works = worksStore.works;
 
+// let ctx: gsap.Context | undefined;
+
 const filterWorks = computed(() => {
   return works && works.filter(work => work.tags.includes(currentSelection.value));
+  // return works;
 });
 
 const textRef = ref(null)
@@ -37,19 +44,35 @@ const handleMouseUp = () => {
     console.log('Selected text:', selectedText)
     // 🔁 Your custom logic here
     currentSelection.value = selectedText;
+  } else {
+    currentSelection.value = 'INITIAL_VALUE_!@#$%^&*()'; // Reset if not a valid selection
   }
 }
 
 onMounted(() => {
   document.addEventListener('mouseup', handleMouseUp)
+  // ctx = gsap.context(() => {
+  //   gsap.to('.box', {
+  //     x: 200,
+  //     duration: 1,
+  //   })
+  // })
 })
 
 onBeforeUnmount(() => {
-  document.removeEventListener('mouseup', handleMouseUp)
+  document.removeEventListener('mouseup', handleMouseUp);
+  // ctx?.revert();
 })
 </script>
 
-<style>
+<style scoped>
+.wrapper {
+  display: flex;
+  height: 80vh;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
 .main-tag-line {
   font-family: LetterGothicStd, sans-serif;
   font-size: 1.5rem;
@@ -82,9 +105,12 @@ onBeforeUnmount(() => {
 }
 
 .work-tiles {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  background: coral;
 }
 </style>
 

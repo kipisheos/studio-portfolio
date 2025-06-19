@@ -1,10 +1,12 @@
 <template>
   <div class="top-bar">
-    <img class="logo" src="../assets/logo.png" alt="Logo" />
+    <RouterLink to="/">
+      <img class="logo" src="../assets/logo.png" alt="Logo" />
+    </RouterLink>
+
     <div class="routing-links">
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-      <RouterLink to="/work">Work</RouterLink>
+      <RouterLink to="/works">Projects</RouterLink>
+      <RouterLink to="/contact">Contact</RouterLink>
     </div>
   </div>
 </template>
