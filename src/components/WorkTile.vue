@@ -34,8 +34,8 @@ const props = defineProps({
 
 const imageRef = ref()
 const directions = [
-  { x: -400, y: 100 }, // left
-  { x: 800, y: 300 },  // right
+  { x: -400, y: -100 }, // left
+  { x: 2800, y: 1300 },  // right
   { x: 0, y: -300 },   // top
 ]
 const entry = directions[props.index % directions.length]

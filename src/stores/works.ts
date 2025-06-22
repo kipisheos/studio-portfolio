@@ -190,6 +190,10 @@ export const useWorksStore = defineStore('works', () => {
       tags: 'industrial design',
       group: 'metalBench',
       year: 2025,
+      location: {
+        x: 400,
+        y: 300,
+      }
     },
     {
       title: 'title placeholder',
@@ -198,6 +202,10 @@ export const useWorksStore = defineStore('works', () => {
       tags: 'industrial design',
       group: 'stybel',
       year: 2025,
+      location: {
+        x: 100,
+        y: 600,
+      }
     },
   ])
 
