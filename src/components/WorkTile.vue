@@ -13,15 +13,21 @@
   </teleport>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, watchEffect } from 'vue'
 import { gsap } from 'gsap'
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const props = defineProps({
-  work: Object,
-  index: Number,
+  work: {
+    type: Object,
+    required: true,
+  },
+  index: {
+    type: Number,
+    required: true,
+  },
   isHovering: Boolean,
   withText: Boolean,
   isTeleport: {
@@ -40,8 +46,7 @@ const directions = [
 ]
 const entry = directions[props.index % directions.length]
 
-const timelineRef = ref(null)
-const test = ref<Boolean>(false);
+const timelineRef = ref<gsap.core.Timeline | null>(null)
 
 onMounted(() => {
   gsap.set(imageRef.value, {

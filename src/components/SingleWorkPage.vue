@@ -19,7 +19,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {useRoute} from "vue-router";
 import VerticalCarusel from "@/components/VerticalCarusel.vue";
 import {useWorksStore} from "@/stores/works.js";
@@ -27,9 +27,9 @@ const route = useRoute();
 useWorksStore();
 const worksStore = useWorksStore();
 const works = worksStore.works;
-const work = works[route.params.index];
+const work = works[Number(route.params.index)];
 const imgList = works.filter(w => w.group === work.group).map(item => item.image);
-const onImageSelect = (selectedImage) => {
+const onImageSelect = (selectedImage: unknown) => {
   console.log('Selected:', selectedImage);
 };
 </script>

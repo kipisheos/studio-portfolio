@@ -19,12 +19,12 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed, defineProps, defineEmits, watch } from 'vue';
+<script setup lang="ts">
+import { ref, computed, watch, type PropType } from 'vue';
 
 const props = defineProps({
   images: {
-    type: Array,
+    type: Array as PropType<string[]>,
     required: true
   }
 });
@@ -35,7 +35,7 @@ const visibleCount = 4;
 const startIndex = ref(0);
 const selectedIndex = ref(0);
 
-const visibleImages = computed(() =>
+const visibleImages = computed<string[]>(() =>
   props.images.slice(startIndex.value, startIndex.value + visibleCount)
 );
 
@@ -47,7 +47,7 @@ const scrollDown = () => {
   if (startIndex.value + visibleCount < props.images.length) startIndex.value++;
 };
 
-const selectImage = (index) => {
+const selectImage = (index: number) => {
   selectedIndex.value = index;
 };
 
