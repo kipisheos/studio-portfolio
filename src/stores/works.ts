@@ -19,14 +19,15 @@ import toys1 from '../assets/toys1.png';
 import metalBench1 from '../assets/metalBench1.png';
 import toteBags1 from '../assets/toteBags1.png';
 import luca1 from '../assets/luca1.png';
+import type {IWork} from "@/types.ts";
 
 export const useWorksStore = defineStore('works', () => {
-  const works = ref([
+  const works = ref<IWork[]>([
     {
       title: 'Project 1',
       description: 'Description for project 1',
       image: luca1,
-      tags: '',
+      tags: [],
       group: 'luca',
       year: 2025,
     },
@@ -34,7 +35,7 @@ export const useWorksStore = defineStore('works', () => {
       title: 'Project 1',
       description: 'Description for project 1',
       image: img1,
-      tags: '',
+      tags: [],
       group: 'stybel',
       year: 2025,
     }                                                                                                                                                                                                                                                                                                                                                                                                                ,
@@ -42,7 +43,7 @@ export const useWorksStore = defineStore('works', () => {
       title: 'Project 2',
       description: `Designing and creating SodaStream\'s premium tier, featuring the newest machine designed by Naoto Fukasawa, presentea an Tnurigulng charlenge. It. involved craftina a tier that both resonated with SodaStream\'s essence while elevating it to a dis-`,
       image: img2,
-      tags: '',
+      tags: [],
       group: 'hereToo',
       year: 2025,
     },
@@ -50,7 +51,7 @@ export const useWorksStore = defineStore('works', () => {
       title: 'Project 3',
       description: 'Description for project 3',
       image: vegetables1,
-      tags: '',
+      tags: [],
       group: 'vegetables',
       year: 2025,
     },
@@ -58,7 +59,7 @@ export const useWorksStore = defineStore('works', () => {
       title: 'Project 3',
       description: 'Description for project 3',
       image: vegetables2,
-      tags: 'thought-leading',
+      tags: ['thought-leading'],
       group: 'vegetables',
       year: 2025,
       location: {
@@ -71,7 +72,7 @@ export const useWorksStore = defineStore('works', () => {
       subtitle: 'Art Direction',
       description: 'Designing and creating SodaStream’s premium tier, featuring the newest machine designed by Naoto Fukasawa, presented an intriguing challenge. It involved crafting a tier that both resonated with SodaStream’s essence while elevating it to a distinctly premium level.',
       image: sodastream1,
-      tags: 'art director',
+      tags: ['art director'],
       group: 'sodastream',
       year: 2025,
       location: {
@@ -83,7 +84,7 @@ export const useWorksStore = defineStore('works', () => {
       title: 'title placeholder',
       description: 'description placeholder',
       image: sodastream2,
-      tags: '',
+      tags: [],
       group: 'sodastream',
       year: 2025,
       location: {
@@ -95,7 +96,7 @@ export const useWorksStore = defineStore('works', () => {
       title: 'title placeholder',
       description: 'description placeholder',
       image: sodastream3,
-      tags: '',
+      tags: [],
       group: 'sodastream-guidelines',
       year: 2025,
       location: {
@@ -107,7 +108,7 @@ export const useWorksStore = defineStore('works', () => {
       title: 'title placeholder',
       description: 'description placeholder',
       image: sodastream4,
-      tags: '',
+      tags: [],
       group: 'sodastream',
       year: 2025,
     },
@@ -115,7 +116,7 @@ export const useWorksStore = defineStore('works', () => {
       title: 'title placeholder',
       description: 'description placeholder',
       image: sodastream5,
-      tags: '',
+      tags: [],
       group: 'sodastream-metal-bottle',
       year: 2025,
     },
@@ -123,7 +124,7 @@ export const useWorksStore = defineStore('works', () => {
       title: 'title placeholder',
       description: 'description placeholder',
       image: sodastream7,
-      tags: 'art director',
+      tags: ['art director'],
       year: 2025,
       group: 'sodastream',
       location: {
@@ -135,7 +136,7 @@ export const useWorksStore = defineStore('works', () => {
       title: 'title placeholder',
       description: 'description placeholder',
       image: sodastream6,
-      tags: '',
+      tags: [],
       group: 'sodastream',
       year: 2025,
     },
@@ -144,7 +145,7 @@ export const useWorksStore = defineStore('works', () => {
       description: 'description placeholder',
       image: smeg1,
       group: 'smeg',
-      tags: '',
+      tags: [],
       year: 2025,
     },
     {
@@ -152,7 +153,7 @@ export const useWorksStore = defineStore('works', () => {
       description: 'description placeholder',
       image: smeg2,
       group: 'smeg',
-      tags: '',
+      tags: [],
       year: 2025,
     },
     {
@@ -160,14 +161,14 @@ export const useWorksStore = defineStore('works', () => {
       description: 'description placeholder',
       image: smeg3,
       group: 'smeg',
-      tags: '',
+      tags: [],
       year: 2025,
     },
     {
       title: 'title placeholder',
       description: 'description placeholder',
       image: allergy1,
-      tags: 'meaningful experiences',
+      tags: ['meaningful experiences'],
       group: 'allergy',
       year: 2025,
     },
@@ -175,7 +176,7 @@ export const useWorksStore = defineStore('works', () => {
       title: 'title placeholder',
       description: 'description placeholder',
       image: toys1,
-      tags: 'playfulness',
+      tags: ['playfulness'],
       group: 'toys',
       year: 2025,
       location: {
@@ -187,7 +188,7 @@ export const useWorksStore = defineStore('works', () => {
       title: 'title placeholder',
       description: 'description placeholder',
       image: metalBench1,
-      tags: 'industrial design',
+      tags: ['industrial design'],
       group: 'metalBench',
       year: 2025,
       location: {
@@ -199,7 +200,7 @@ export const useWorksStore = defineStore('works', () => {
       title: 'title placeholder',
       description: 'description placeholder',
       image: toteBags1,
-      tags: 'industrial design',
+      tags: ['industrial design'],
       group: 'stybel',
       year: 2025,
       location: {

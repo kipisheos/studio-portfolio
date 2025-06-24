@@ -28,7 +28,7 @@ import {RouterLink} from "vue-router";
 .routing-links {
   display: flex;
   gap: 20px;
-  font-size: 20px;
+  font-size: 14px;
   font-weight: bold;
   a {
     color: black;
