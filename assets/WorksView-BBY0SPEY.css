@@ -1,0 +1,1 @@
+.works-page{margin:4rem 2rem;display:flex;justify-content:center}.works-page .filter{display:flex;gap:8px;margin-bottom:16px}.works-page .work-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:48px 32px}@media (max-width: 768px){.works-page .work-tiles{grid-template-columns:repeat(1,1fr)}}
