@@ -1,27 +1,40 @@
 <template>
   <div v-if="!isTeleport" class="work-tile">
     <div class="work-tile__content">
-      <img class="work-image" :src="work.image" :alt="work.title" @click="navigateToWorkPage"/>
-      <div>{{ work.title }}</div>
+      <div class="image-container">
+        <img
+          class="work-image"
+          :style="imageStyle"
+          :src="work?.image"
+          :alt="projectInfo?.title"
+          @click="navigateToWorkPage"
+        />
+      </div>
+      <div>{{ projectInfo?.title }}</div>
     </div>
   </div>
   <!-- Image portal / floating image -->
   <teleport v-else to="body">
     <div class="floating-image" ref="imageRef">
-      <img :src="work.image" :alt="work.title" @click="navigateToWorkPage"/>
+      <img :src="work.image" :alt="projectInfo?.title" @click="navigateToWorkPage"/>
     </div>
   </teleport>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watchEffect } from 'vue'
+import {ref, onMounted, onBeforeUnmount, watchEffect, computed,type PropType} from 'vue'
 import { gsap } from 'gsap'
 import { useRouter } from "vue-router";
+import type {IProjectInfo, IWork} from "@/types.ts";
 
 const router = useRouter();
 const props = defineProps({
   work: {
-    type: Object,
+    type: Object as PropType<IWork>,
+    required: true,
+  },
+  projectInfo: {
+    type: Object as PropType<IProjectInfo>,
     required: true,
   },
   index: {
@@ -47,6 +60,13 @@ const directions = [
 const entry = directions[props.index % directions.length]
 
 const timelineRef = ref<gsap.core.Timeline | null>(null)
+
+const imageStyle = computed(() => {
+  const imgStyle = props.work?.imageStyle;
+  const position = imgStyle?.tile ? `object-position: ${imgStyle.tile.x}% ${imgStyle.tile.y}%` : '';
+  const scale = imgStyle?.tile ? `scale: ${imgStyle.tile.scale}%` : '';
+  return `${position}; ${scale}`;
+})
 
 onMounted(() => {
   gsap.set(imageRef.value, {
@@ -97,17 +117,29 @@ onBeforeUnmount(() => {
 
 const navigateToWorkPage = () => {
   // Navigate to the single work page
-  router.push({ name: 'SingleWorkPage', params: { title: props.work.group, index: props.index } })
+  router.push({ name: 'SingleWorkPage', params: { projectGroup: props.projectInfo?.group } })
 }
 </script>
 
 <style scoped>
 .work-tile {
-  .work-image {
-    width: 300px;
-    height: 180px;
-    object-fit: cover;
+  .image-container {
+    width: 400px;
+    height: 270px;
+    overflow: hidden;
+    position: relative;
     cursor: pointer;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+  .work-image {
+    width: 400px;
+    height: 270px;
+    object-fit: cover;
+  }
+  .work-tile__content {
+    font-size: 12px;
   }
 }
 

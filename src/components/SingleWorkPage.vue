@@ -1,19 +1,27 @@
 <template>
   <div class="page-wrapper">
     <div class="images-wrapper">
-      <img class="main-img-style" :src="work.image" :alt="work.title" />
-      <VerticalCarusel :images="imgList" @select="onImageSelect" />
+      <div class="image-container">
+        <img
+          class="main-img-style"
+          :src="work.image"
+          :alt="project.title"
+          :style="imageStyle"
+        />
+      </div>
+      <VerticalCarusel v-if="works.length > 1" :images="works.map(work => work.image)" @select="onImageSelect" />
+      <div v-else class="placeholder"></div>
     </div>
     <div class="work-tile__content">
       <div class="name-and-year">
         <div class="title-and-tag">
-          <div class="title">{{ work.title }}</div>
-          <div class="subtitle">{{ work.subtitle }}</div>
+          <div class="title">{{ project.title }}</div>
+          <div class="subtitle">{{ project.subtitle }}</div>
         </div>
-        <div class="title">{{ work.year }}</div>
+        <div class="title">{{ project.year }}</div>
       </div>
       <div class="description">
-        {{ work.description }}
+        {{ project.description }}
       </div>
     </div>
   </div>
@@ -23,24 +31,41 @@
 import {useRoute} from "vue-router";
 import VerticalCarusel from "@/components/VerticalCarusel.vue";
 import {useWorksStore} from "@/stores/works.js";
+import type {IProject, IWork} from "@/types.ts";
+import {ref, computed} from "vue";
+
 const route = useRoute();
 useWorksStore();
 const worksStore = useWorksStore();
-const works = worksStore.works;
-const work = works[Number(route.params.index)];
-const imgList = works.filter(w => w.group === work.group).map(item => item.image);
-const onImageSelect = (selectedImage: unknown) => {
-  console.log('Selected:', selectedImage);
+const project: IProject = worksStore.getProjectByGroup(route.params.projectGroup as string);
+const works: IWork[] = project.works;
+const work = ref<IWork>(works[0]);
+const onImageSelect = (newIndex: unknown) => {
+  work.value = works[Number(newIndex)];
 };
+
+const imageStyle = computed(() => {
+  const imgStyle = work.value?.imageStyle;
+  const position = imgStyle?.full ? `object-position: ${imgStyle.full.x}% ${imgStyle.full.y}%` : '';
+  const scale = imgStyle?.full ? `scale: ${imgStyle.full.scale}%` : '';
+  return `${position}; ${scale}`;
+})
 </script>
 
 <style scoped>
 .page-wrapper {
-  margin: 50px 40px 60px;
+  margin: 68px 40px 60px 10%;
   .images-wrapper {
     display: flex;
     align-items: center;
-    gap: 20px;
+    .image-container {
+      width: 700px;
+      height: 400px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      background-color: #f5f5f5;
+    }
     .main-img-style {
       width: 700px;
       height: 400px;
@@ -54,6 +79,8 @@ const onImageSelect = (selectedImage: unknown) => {
       justify-content: space-between;
       margin-bottom: 40px;
       font-size: 0.7rem;
+      font-family: LetterGothicStd, sans-serif;
+      font-weight: bold;
       .title-and-tag {
         .subtitle {
           font-style: italic;
@@ -64,11 +91,13 @@ const onImageSelect = (selectedImage: unknown) => {
       }
     }
     .description {
-      font-family: LetterGothicStd, sans-serif;
-      font-weight: bold;
-      font-size: 0.7rem;
+      font-size: 0.8rem;
       text-align: justify;
+      line-height: 15px;
     }
   }
+}
+.placeholder {
+  width: 200px;
 }
 </style>

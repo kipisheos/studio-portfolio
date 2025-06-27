@@ -1,26 +1,25 @@
 <template>
   <div class="carousel">
-    <button @click="scrollUp" :disabled="startIndex === 0" class="arrow" v-html="chevronUp" />
+    <button @click="scrollUp" class="arrow" v-html="chevronUp" />
 
-
-    <div class="carousel-list">
+    <div ref="listRef" class="carousel-list">
       <div
-        v-for="(img, i) in visibleImages"
-        :key="i + startIndex"
+        v-for="(img, i) in props.images"
+        :key="i"
         class="carousel-item"
-        :class="{ selected: i + startIndex === selectedIndex }"
-        @click="selectImage(i + startIndex)"
+        :class="{ selected: i === selectedIndex }"
+        @click="selectImage(i)"
       >
         <img :src="img" alt="carousel image" />
       </div>
     </div>
 
-    <button @click="scrollDown" :disabled="startIndex + visibleCount >= images.length" class="arrow" v-html="chevronDown" />
+    <button @click="scrollDown" class="arrow" v-html="chevronDown" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, type PropType } from 'vue';
+import { ref, watch, type PropType } from 'vue';
 
 const props = defineProps({
   images: {
@@ -31,20 +30,21 @@ const props = defineProps({
 
 const emit = defineEmits(['select']);
 
-const visibleCount = 4;
-const startIndex = ref(0);
 const selectedIndex = ref(0);
-
-const visibleImages = computed<string[]>(() =>
-  props.images.slice(startIndex.value, startIndex.value + visibleCount)
-);
+const listRef = ref<HTMLElement | null>(null);
+const itemHeight = 80 + 4; // image height + vertical margin (2px top & bottom)
+const visibleCount = 4;
 
 const scrollUp = () => {
-  if (startIndex.value > 0) startIndex.value--;
+  if (listRef.value) {
+    listRef.value.scrollTop -= itemHeight;
+  }
 };
 
 const scrollDown = () => {
-  if (startIndex.value + visibleCount < props.images.length) startIndex.value++;
+  if (listRef.value) {
+    listRef.value.scrollTop += itemHeight;
+  }
 };
 
 const selectImage = (index: number) => {
@@ -52,7 +52,7 @@ const selectImage = (index: number) => {
 };
 
 watch(selectedIndex, (newIndex) => {
-  emit('select', props.images[newIndex]);
+  emit('select', newIndex);
 });
 
 const chevronUp = `
@@ -93,8 +93,9 @@ button:disabled {
 .carousel-list {
   display: flex;
   flex-direction: column;
-  height: 4 * 80px;
-  overflow: hidden;
+  height: calc(4 * 80px); /* visibleCount * itemHeight */
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .carousel-item {
@@ -111,6 +112,6 @@ button:disabled {
   height: 80px;
   width: 150px;
   object-fit: cover;
+  background: #f5f5f5;
 }
-
 </style>

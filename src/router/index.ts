@@ -22,7 +22,7 @@ const ROUTE_CONFIG = {
       component: () => import('../views/WorksView.vue'),
     },
     {
-      path: '/single-work/:title/:index',
+      path: '/single-work/:projectGroup',
       name: 'SingleWorkPage',
       component: () => import('../views/SingleWorkView.vue'),
     },

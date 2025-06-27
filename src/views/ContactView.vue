@@ -1,16 +1,9 @@
 <template>
-  <div class="contact">
-    <h1>This is the contact page</h1>
-  </div>
+  <contact-page/>
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .contact {
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
 </style>
+<script setup lang="ts">
+import ContactPage from "@/components/ContactPage.vue";
+</script>
