@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="tagline-container">
-      <div class="main-tag-line" ref="textRef" v-html="animatedHtml" />
+      <div class="main-tag-line" ref="textRef" v-html="originalText" />
       <div v-if="isAnimating" class="explanation">
         <img class="explanation-text" src="@/assets/home-page-animation/text.svg" />
         <img class="explanation-line" src="@/assets/home-page-animation/line.svg" />
@@ -40,7 +40,6 @@ const testIsHovering = (work: IWork) => {
 const textRef = ref<HTMLElement | null>(null);
 const currentSelection = ref<string>('INITIAL_VALUE_!@#$%^&*()');
 const originalText = `A thought-leading <span class="highlight-word">design art director</span> shaping meaningful experiences through curiosity, bold thinking and playfulness with a multidisciplinary practice across industrial design, branding, web engineering and digital innovation<span class="blinking-cursor">|</span>`;
-const animatedHtml = ref<string>(originalText);
 const userInteracting = ref<boolean>(false);
 const isAnimating = ref<boolean>(false);
 const timeoutId = ref<number | null>(null);
@@ -71,17 +70,17 @@ const handleMouseDown = () => {
 onMounted(() => {
   document.addEventListener('mouseup', handleMouseUp);
   document.addEventListener('mousedown', handleMouseDown);
-  startTimeoutForAnimation();
+  startTimeoutForAnimation(1500);
 })
 
 onBeforeUnmount(() => {
   document.removeEventListener('mouseup', handleMouseUp);
 })
 
-const startTimeoutForAnimation = () => {
+const startTimeoutForAnimation = (timeout: number = 4000) => {
   timeoutId.value = setTimeout(() => {
     animateTextSelection();
-  }, 5000);
+  }, timeout);
 }
 
 const animateTextSelection = () => {
@@ -165,12 +164,12 @@ const animateTextSelection = () => {
     0 1px black,
     0 -1px black;
 }
-.blinking-cursor {
+:deep(.blinking-cursor) {
   display: inline-block;
   animation: blink 1s steps(1) infinite;
   color: black;
-  user-select: none;     /* Prevents text selection */
-  pointer-events: none;  /* Prevents hover/click interaction */
+  user-select: none;
+  pointer-events: none;
 }
 
 /* Blinking animation */
@@ -187,18 +186,19 @@ const animateTextSelection = () => {
 }
 .explanation {
   position: absolute;
-  top: -84px;
-  left: -60px;
+  top: -106px;
+  left: -30px;
   display: flex;
   flex-direction: column;
   margin-left: 5%;
   width: auto;
+  gap: 4px;
   .explanation-text {
-    width: 240px;
+    width: 200px;
     margin: 0 auto;
   }
   .explanation-line {
-    width: 40px;
+    width: 24px;
     margin-left: 10%;
   }
 }

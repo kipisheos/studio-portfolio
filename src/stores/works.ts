@@ -272,6 +272,12 @@ export const useWorksStore = defineStore('works', () => {
           location: {
             x: 200,
             y: 150,
+          },
+          imageStyle: {
+            tile: {
+              x: 69,
+              y: 50,
+            }
           }
         },
         {
